@@ -1,0 +1,25 @@
+{
+  "name": "foreman-metrics-gcs",
+  "version": "1.0.0",
+  "description": "Cloud function to store Foreman metrics to GCS",
+  "main": "index.js",
+  "dependencies": {
+    "@google-cloud/pubsub": "^2.9.0",
+    "@google-cloud/storage": "^5.7.4",
+    "moment": "^2.29.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/delawr0190/foreman-metrics-gcs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/delawr0190/foreman-metrics-gcs/issues"
+  },
+  "homepage": "https://github.com/delawr0190/foreman-metrics-gcs#readme"
+}
