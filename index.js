@@ -18,30 +18,32 @@ async function uploadMetrics(payload) {
       .file(`${payload.client}/aggregates/${year}/${month}/${day}/${hour}/${payload.pickaxe.id}/${publishedTime}.json`)
       .save(JSON.stringify(payload));
 
-    for (const key in payload.miners) {
-      const miner = payload.miners[key].miner;
-      const metrics = payload.miners[key].metrics;
+    if (process.env.STORE_SPLIT || false) {
+      for (const key in payload.miners) {
+        const miner = payload.miners[key].miner;
+        const metrics = payload.miners[key].metrics;
 
-      const toStore = {
-        'pickaxe': payload.pickaxe.id,
-        'metrics': metrics,
-        'published': payload.published,
-        'received': payload.received
-      };
+        const toStore = {
+          'pickaxe': payload.pickaxe.id,
+          'metrics': metrics,
+          'published': payload.published,
+          'received': payload.received
+        };
 
-      const identifier = miner.mac ? miner.mac : miner.id;
+        const identifier = miner.mac ? miner.mac : miner.id;
 
-      // Upload individual miner metrics
-      console.log(`Storage metrics for ${payload.client} - ${identifier}`);
+        // Upload individual miner metrics
+        console.log(`Storage metrics for ${payload.client} - ${identifier}`);
 
-      const file = bucket.file(`${payload.client}/split/${year}/${month}/${day}/${hour}/${identifier}/${publishedTime}.json`);
-      await file.save(JSON.stringify(toStore));
-      await file.setMetadata({
-        metadata: {
-          minerId: miner.id,
-          minerType: miner.type
-        }
-      });
+        const file = bucket.file(`${payload.client}/split/${year}/${month}/${day}/${hour}/${identifier}/${publishedTime}.json`);
+        await file.save(JSON.stringify(toStore));
+        await file.setMetadata({
+          metadata: {
+            minerId: miner.id,
+            minerType: miner.type
+          }
+        });
+      }
     }
 }
 
