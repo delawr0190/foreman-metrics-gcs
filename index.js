@@ -15,7 +15,7 @@ async function uploadMetrics(payload) {
     // Upload aggregates
     console.log(`Storing aggregates for ${payload.client}`);
     await bucket
-      .file(`${payload.client}/aggregates/${year}/${month}/${day}/${hour}/${publishedTime}.json`)
+      .file(`${payload.client}/aggregates/${year}/${month}/${day}/${hour}/${payload.pickaxe}/${publishedTime}.json`)
       .save(JSON.stringify(payload));
 
     for (const key in payload.miners) {
